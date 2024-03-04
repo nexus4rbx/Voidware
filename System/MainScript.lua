@@ -1775,28 +1775,9 @@ local GUIbind = GUI.CreateGUIBind()
 local teleportConnection = playersService.LocalPlayer.OnTeleport:Connect(function(State)
     if (not teleportedServers) and (not shared.VapeIndependent) then
 		teleportedServers = true
-		local teleportScript = [[
-			shared.VapeSwitchServers = true 
-			if isfile("vape/NewMainScript.lua") then 
-				loadstring(readfile("vape/NewMainScript.lua"))() 
-			else 
-				local voidwarever = isfile("vape/Voidware/commithash.vw") and readfile("vape/Voidware/commithash.vw") or "main"
-				local suc, data = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/"..voidwarever.."/System/NewMainScript.lua", true) end)
-				if suc and data ~= "404: Not Found" and data ~= "" and voidwarever ~= "" and data ~= "400: Invalid Request" then
-				loadstring(data)()
-				data = "-- Voidware Custom Modules Signed File\n"..data
-				pcall(writefile, "vape/NewMainScript.lua", data)
-				end
-			end
-		]]
-		if shared.VapeDeveloper then
-			teleportScript = 'shared.VapeDeveloper = true\n'..teleportScript
-		end
-		if shared.VapePrivate then
-			teleportScript = 'shared.VapePrivate = true\n'..teleportScript
-		end
+		local teleportScript = "loadfile('vape/NewMainScript.lua')()"
 		if shared.VapeCustomProfile then 
-			teleportScript = "shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'\n"..teleportScript
+			teleportScript = ("shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'\n"..teleportScript)
 		end
 		GuiLibrary.SaveSettings()
 		queueonteleport(teleportScript)
