@@ -594,7 +594,7 @@ function VoidwareFunctions:GetFile(file, online, path, silent)
 			data = file:find(".lua") and "-- Voidware Custom Vape Signed File\n"..data or data
 			writefile(path or directory.."/"..file, data)
 		else
-			vapeAssert(false, "Voidware", "Failed to download "..directory.."/"..file.." | "..data, 60)
+			vapeAssert(false, "Voidware", "Failed to download "..directory.."/"..file.." | "..data, 10)
 			return error("[Voidware] Failed to download "..directory.."/"..file.." | "..data)
 		end
 	end
