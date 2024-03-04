@@ -1,0 +1,1 @@
+{"AnnouncementText":"Announcement System Test","Announcement":true,"Disabled":false,"AnnouncementDuration":10}
