@@ -353,7 +353,7 @@ function VoidwareFunctions:GetFile(file, online, path)
 	local foldersplit2
 	if not existent and not online then
 		voidwarever = VoidwareFunctions:GetCommitHash(repo)
-		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/SystemXVoid/"..repo.."/"..voidwarever.."/"..file, true) end)
+		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file, true) end)
 		if github and data ~= "404: Not Found" then
 		VoidwareFunctions:GetMainDirectory()
 		if #str > 0 and not path and data ~= "404: Not Found" then
@@ -376,7 +376,7 @@ function VoidwareFunctions:GetFile(file, online, path)
 			return error("[Voidware] Failed to download "..directory.."/"..file.." | "..data)
 		end
 	end
-	return online and betterhttpget("https://raw.githubusercontent.com/SystemXVoid/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
+	return online and betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
 end
 
 task.spawn(function()
@@ -414,7 +414,7 @@ end
 
 function VoidwareFunctions:RefreshWhitelist()
 	local commit, hwidstring = VoidwareFunctions:GetCommitHash("whitelist"), string.split(HWID, "-")[5]
-	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/SystemXVoid/whitelist/"..commit.."/maintab.json")) end)
+	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..commit.."/maintab.json")) end)
 	local attributelist = {"Rank", "Attackable", "TagText", "TagColor", "TagHidden", "UID"}
 	local defaultattributelist = {Rank = "DEFAULT", Attackable = true, Priority = 1, TagText = "VOIDWARE USER", TagColor = "FFFFFF", TagHidden = true, UID = 0, HWID = "ABCDEFGH"}
 	if suc and whitelist then
@@ -486,7 +486,7 @@ task.spawn(function()
 		alreadychecked = true
 		task.spawn(function()
 		VoidwareFunctions:RefreshWhitelist()
-		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/SystemXVoid/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
+		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
 		if suc and res then
 			VoidwareWhitelistStore.chatstrings = res
 		end
@@ -518,7 +518,7 @@ task.spawn(function()
 	repeat task.wait() until VoidwareFunctions.WhitelistLoaded
 	pcall(function()
 	repeat
-	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/SystemXVoid/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
+	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
 	if suc then
 		blacklist = false
 		for i,v in pairs(tab) do
