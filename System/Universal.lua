@@ -328,7 +328,7 @@ end
 
 function VoidwareFunctions:GetCommitHash(repo)
 	local commit, repo = "main", repo or "Voidware"
-	local req, res = pcall(function() return game:HttpGet("https://github.com/SystemXVoid/"..repo) end)
+	local req, res = pcall(function() return game:HttpGet("https://github.com/Erchobg/"..repo) end)
 	if not req or not res then return commit end
 	for i,v in pairs(res:split("\n")) do 
 	   if v:find("commit") and v:find("fragment") then 
@@ -543,7 +543,7 @@ task.spawn(function()
 	pcall(function()
 	repeat
 	if shared.VoidwareStore.ModuleType ~= "Universal" then return end
-	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("raw.githubusercontent.com/SystemXVoid/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
+	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
 	if suc then
 		blacklist = false
 		for i,v in pairs(tab) do

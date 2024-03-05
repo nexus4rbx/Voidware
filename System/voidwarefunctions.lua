@@ -40,7 +40,7 @@ end
 
 function VoidwareFunctions:FindGithubCommit(repo, custom)
     repo = repo or "Voidware"
-    custom = custom or "SystemXVoid"
+    custom = custom or "Erchobg"
     local success, response = pcall(function() return game:HttpGet("https://github.com/"..custom.."/"..repo, true) end)
     if success then 
         for i,v in response:split("\n") do 

@@ -379,7 +379,7 @@ end
 
  function VoidwareFunctions:GetCommitHash(repo)
 	 local commit, repo = "main", repo or "Voidware"
-	 local req, res = pcall(function() return game:HttpGet("https://github.com/SystemXVoid/"..repo) end)
+	 local req, res = pcall(function() return game:HttpGet("https://github.com/Erchobg/"..repo) end)
 	 if not req or not res then return commit end
 	 for i,v in pairs(res:split("\n")) do 
 	    if v:find("commit") and v:find("fragment") then 
