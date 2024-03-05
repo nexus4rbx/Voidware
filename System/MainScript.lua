@@ -2114,7 +2114,7 @@ else
 		task.spawn(errorNotification, "Voidware", "Failed to load the current profiles | "..err)
 		error(err)
 		else
-		task.spawn(recoverVoidware)
+		--task.spawn(recoverVoidware)
 		end
 	end
 end
