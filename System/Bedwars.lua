@@ -1,6 +1,10 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = false
 
+if shared == nil then
+	getgenv().shared = {} 
+end
+
 task.delay(10, function()
 	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Bedwars.lua") then 
 		GuiLibrary.CreateNotification("Voidware", "The Connection to Github is taking a while. If vape doesn't load within 15 seconds, please reinject.", 10)
@@ -478,7 +482,7 @@ end
 
  function VoidwareFunctions:GetCommitHash(repo)
 	 local commit, repo = "main", repo or "Voidware"
-	 local req, res = pcall(function() return betterhttpget("https://github.com/SystemXVoid/"..repo) end)
+	 local req, res = pcall(function() return betterhttpget("https://github.com/Erchobg/"..repo) end)
 	 if not req or not res then return commit end
 	 for i,v in pairs(res:split("\n")) do 
 	    if v:find("commit") and v:find("fragment") then 
@@ -8930,7 +8934,7 @@ end)
 		EventNotificationBedBreakList.Object.AddBoxBKG.AddBox.TextSize = 13
 	end)
 
-	runFunction(function()
+	--[[runFunction(function()
 		local HostPanelExploit = {Enabled = false}
 		local oldhostattribute = nil
 		HostPanelExploit = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
@@ -8948,7 +8952,7 @@ end)
 				end)
 			end
 		})
-	end)
+	end)]]
 
 	runFunction(function()
 		if not pcall(GuiLibrary.RemoveObject, "BoostHighJumpOptionsButton") then 
@@ -9111,7 +9115,7 @@ runFunction(function()
 	})
 end)
 
-runFunction(function()
+--[[runFunction(function()
 	pcall(GuiLibrary.RemoveObject, "FirewallBypassOptionsButton")
 	local FirewallBypass = {Enabled = false}
 	local bypassdirection = Vector3.new(9e9, 9e9, 9e9)
@@ -9147,9 +9151,9 @@ runFunction(function()
 			end
 		end
 	})
-end)
+end)]]
 
-runFunction(function()
+--[[runFunction(function()
 	local WolfExploit = {Enabled = false}
 	WolfExploit = GuiLibrary.ObjectsThatCanBeSaved.WorldWindow.Api.CreateOptionsButton({
 		Name = "WolfExploit",
@@ -9165,9 +9169,9 @@ runFunction(function()
 			end
 		end
 	})
-end)
+end)]]
 
-runFunction(function()
+--[[runFunction(function()
 	local SpookyExploit = {Enabled = false}
 	SpookyExploit = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
 		Name = "SpookyExploit",
@@ -9183,9 +9187,9 @@ runFunction(function()
 			end
 		end
 	})
-end)
+end)]]
 
-runFunction(function()
+--[[runFunction(function()
 	local HungerAll = {Enabled = false}
 	local Hunger = {Enabled = false}
 	local HungerTarget = {Value = ""}
@@ -9264,4 +9268,4 @@ runFunction(function()
 		repeat task.wait() until shared.VapeFullyLoaded
 		HungerTarget.SetValue("")
 	end)
-end)
+end)]]
