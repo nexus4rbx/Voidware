@@ -1,3 +1,7 @@
+while true do
+print('test')
+wait(3)
+end
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = false
 
