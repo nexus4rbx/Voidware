@@ -1,8 +1,8 @@
-if not game:IsLoaded() then repeat task.wait() until game:IsLoaded() end
+repeat task.wait() until game:IsLoaded()
+local GuiLibrary
 if shared == nil then
 	getgenv().shared = {} 
 end
-local GuiLibrary
 local baseDirectory = (shared.VapePrivate and "vapeprivate/" or "vape/")
 local vapeInjected = true
 local oldRainbow = false
@@ -188,9 +188,6 @@ end
 assert(not shared.VapeExecuted, "Vape Already Injected")
 shared.VapeExecuted = true
 
-local exploitfullyloaded = false 
-repeat exploitfullyloaded = pcall(function() return game.HttpGet end) task.wait() until exploitfullyloaded -- we love electron
-
 for i,v in pairs({baseDirectory:gsub("/", ""), "vape", "vape/Libraries", "vape/CustomModules", "vape/Profiles", baseDirectory.."Profiles", "vape/assets"}) do 
 	if not isfolder(v) then makefolder(v) end
 end
@@ -208,6 +205,41 @@ task.spawn(function()
 		writefile("vape/assetsversion.txt", assetver)
 	end
 end)
+if not isfile("vape/CustomModules/cachechecked.txt") then
+	local isNotCached = false
+	for i,v in pairs({"vape/Universal.lua", "vape/MainScript.lua", "vape/GuiLibrary.lua"}) do 
+		if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
+			isNotCached = true
+		end 
+	end
+	if isfolder("vape/CustomModules") then 
+		for i,v in pairs(listfiles("vape/CustomModules")) do 
+			if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
+				isNotCached = true
+			end 
+		end
+	end
+	if isNotCached and not shared.VapeDeveloper then
+		displayErrorPopup("Vape has detected uncached files, If you have CustomModules click no, else click yes.", {No = function() end, Yes = function()
+			for i,v in pairs({"vape/Universal.lua", "vape/MainScript.lua", "vape/GuiLibrary.lua"}) do 
+				if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
+					--delfile(v)
+				end 
+			end
+			for i,v in pairs(listfiles("vape/CustomModules")) do 
+				if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
+					local last = v:split('\\')
+					last = last[#last]
+					local suc, publicrepo = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/CustomModules/"..last) end)
+					if suc and publicrepo and publicrepo ~= "404: Not Found" then
+						--writefile("vape/CustomModules/"..last, "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..publicrepo)
+					end
+				end 
+			end
+		end})
+	end
+	writefile("vape/CustomModules/cachechecked.txt", "verified")
+end
 
 GuiLibrary = loadstring(vapeGithubRequest("GuiLibrary.lua"))()
 shared.GuiLibrary = GuiLibrary
@@ -269,11 +301,6 @@ local World = GuiLibrary.CreateWindow({
 	Icon = "vape/assets/WorldIcon.png", 
 	IconSize = 16
 })
-local Matchmaking = GuiLibrary.CreateWindow({
-	Name = "Matchmaking", 
-	Icon = "vape/assets/SliderArrow1.png", 
-	IconSize = 16
-})
 local Friends = GuiLibrary.CreateWindow2({
 	Name = "Friends", 
 	Icon = "vape/assets/FriendsIcon.png", 
@@ -320,12 +347,6 @@ GUI.CreateButton({
 	Icon = "vape/assets/WorldIcon.png", 
 	IconSize = 16
 })
-GUI.CreateButton({
-	Name = "Matchmaking", 
-	Function = function(callback) Matchmaking.SetVisible(callback) end, 
-	Icon = "vape/assets/SliderArrow1.png", 
-	IconSize = 16
-})
 GUI.CreateDivider("MISC")
 GUI.CreateButton({
 	Name = "Friends", 
@@ -339,7 +360,6 @@ GUI.CreateButton({
 	Name = "Profiles", 
 	Function = function(callback) Profiles.SetVisible(callback) end, 
 })
-
 
 local FriendsTextListTable = {
 	Name = "FriendsList", 
@@ -1321,20 +1341,13 @@ local function newHealthColor(percent)
 	end
 	return Color3.fromRGB(255, 255, 0):lerp(Color3.fromRGB(249, 57, 55), (0.5 - percent) / 0.5)
 end
+
 local TargetInfo = GuiLibrary.CreateCustomWindow({
 	Name = "Target Info",
-	Icon = "vape/assets/TargetIcon3.png",
+	Icon = "vape/assets/TargetInfoIcon1.png",
 	IconSize = 16
 })
-local TargetInfoToggle = GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Api.CreateCustomToggle({
-	Name = "Target Info",
-	Icon = "vape/assets/TargetInfoIcon2.png", 
-	Function = function(boolean)
-		TargetInfo.SetVisible(boolean)
-	end
-})
 local TargetInfoBackground = {Enabled = false}
-local TargetInfoBackgroundColor = {Hue = 0, Sat = 0, Value = 0}
 local TargetInfoMainFrame = Instance.new("Frame")
 TargetInfoMainFrame.BackgroundColor3 = Color3.fromRGB(26, 25, 26)
 TargetInfoMainFrame.BorderSizePixel = 0
@@ -1482,7 +1495,12 @@ task.spawn(function()
 		task.wait()
 	until not vapeInjected
 end)
-
+GUI.CreateCustomToggle({
+	Name = "Target Info", 
+	Icon = "vape/assets/TargetInfoIcon2.png", 
+	Function = function(callback) TargetInfo.SetVisible(callback) end,
+	Priority = 1
+})
 local GeneralSettings = GUI.CreateDivider2("General Settings")
 local ModuleSettings = GUI.CreateDivider2("Module Settings")
 local GUISettings = GUI.CreateDivider2("GUI Settings")
@@ -1775,9 +1793,22 @@ local GUIbind = GUI.CreateGUIBind()
 local teleportConnection = playersService.LocalPlayer.OnTeleport:Connect(function(State)
     if (not teleportedServers) and (not shared.VapeIndependent) then
 		teleportedServers = true
-		local teleportScript = "loadfile('vape/NewMainScript.lua')()"
+		local teleportScript = [[
+			shared.VapeSwitchServers = true 
+			if shared.VapeDeveloper then 
+				loadstring(readfile("vape/NewMainScript.lua"))() 
+			else 
+				loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/NewMainScript.lua", true))() 
+			end
+		]]
+		if shared.VapeDeveloper then
+			teleportScript = 'shared.VapeDeveloper = true\n'..teleportScript
+		end
+		if shared.VapePrivate then
+			teleportScript = 'shared.VapePrivate = true\n'..teleportScript
+		end
 		if shared.VapeCustomProfile then 
-			teleportScript = ("shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'\n"..teleportScript)
+			teleportScript = "shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'\n"..teleportScript
 		end
 		GuiLibrary.SaveSettings()
 		queueonteleport(teleportScript)
@@ -1909,6 +1940,95 @@ GeneralSettings.CreateButton2({
 	Function = GuiLibrary.SelfDestruct
 })
 
+local function errorNotification(title, text, duration)
+	local suc, res = pcall(function() 
+	local notification = GuiLibrary.CreateNotification(title or "Voidware", text or "Failed to call function.", duration or 20, "assets/WarningNotification.png")
+	notification.IconLabel.ImageColor3 = Color3.new(220, 0, 0)
+	notification.Frame.Frame.ImageColor3 = Color3.new(220, 0, 0)
+	return notification
+	end)
+	return suc and res
+end
+
+local function recoverVoidware()
+	if not shared.VoidwareRecoveryReinject then
+		task.wait(1)
+		local autoReinject = pcall(GuiLibrary.SelfDestruct)
+		if autoReinject then 
+			shared.VapeExecuted = true
+			task.delay(10, function() 
+				shared.VapeExecuted = nil
+				if isfile("vape/NewMainScript.lua") then
+					loadstring(readfile("vape/NewMainScript.lua"))()
+				else
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/NewMainScript.lua", true))() 
+				end
+			end)
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Voidware Recovery",
+				Text = "Delaying Inject Time for 10s to avoid crashing.",
+				Duration = 8.5,
+			})
+		else
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Voidware Recovery",
+				Text = "Failed to Auto reinject Vape. Try manual re-injecting.",
+				Duration = 30,
+			})
+		 end
+		 shared.VoidwareRecoveryReinject = true
+		else
+			if shared.VoidwareRecoveryStage2 then
+				errorNotification("Voidware", "Automatic Recovery failed to repair Voidware. Check for updates at discord.gg/voidware.", 120)
+				shared.VoidwareRecoveryReinject = nil
+		        shared.VoidwareRecoveryStage2 = nil
+			else
+			pcall(delfolder, "vape/Voidware/data")
+			local suc, data = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/NewMainScript.lua", true) end)
+			if suc and data ~= "" and data ~= "404: Not Found" then
+				if not isfolder("vape") then makefolder("vape") end
+				data = "-- Voidware Custom Modules Signed File\n"..data
+				writefile("vape/NewMainScript.lua", data)
+			end
+			suc, data = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/MainScript.lua", true) end)
+			if suc and data ~= "" and data ~= "404: Not Found" then
+				if not isfolder("vape") then makefolder("vape") end
+				data = "-- Voidware Custom Modules Signed File\n"..data
+				writefile("vape/MainScript.lua", data)
+			end
+			suc, data = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/Bedwars.lua", true) end)
+			if suc and data ~= "" and data ~= "404: Not Found" then
+				if not isfolder("vape") then makefolder("vape") end
+				if not isfolder("vape/CustomModules") then makefolder("vape/CustomModules") end
+				pcall(writefile, "vape/CustomModules/6872274481.lua", data)
+			end
+			suc, data = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/GuiLibrary.lua", true) end)
+			if suc and data ~= "" and data ~= "404: Not Found" then
+				if not isfolder("vape") then makefolder("vape") end
+				data = "-- Voidware Custom Modules Signed File\n"..data
+				writefile("vape/GuiLibrary.lua", data)
+			end
+			shared.VoidwareRecoveryStage2 = true
+			local autoReinject = pcall(GuiLibrary.SelfDestruct)
+			if autoReinject then
+				task.delay(1, function() 
+					if isfile("vape/NewMainScript.lua") then
+						loadstring(readfile("vape/NewMainScript.lua"))()
+					else
+						loadstring(game:HttpGet("https://raw.githubusercontent.com/Erchobg/Voidware/main/System/NewMainScript.lua", true))() 
+					end
+				end)
+			else
+				game:GetService("StarterGui"):SetCore("SendNotification", {
+					Title = "Voidware Recovery",
+					Text = "Failed to Auto reinject Vape. Try manual re-injecting.",
+					Duration = 30,
+				})
+			 end
+		end
+	end
+end
+
 local function loadVape()
 	if not shared.VapeIndependent then
 		loadstring(vapeGithubRequest("Universal.lua"))()
@@ -1967,11 +2087,21 @@ local function loadVape()
 	shared.VapeFullyLoaded = true
 end
 
-shared.VoidwareIndependent = true
 if shared.VapeIndependent then
 	task.spawn(loadVape)
 	shared.VapeFullyLoaded = true
 	return GuiLibrary
 else
-	loadVape()
+	local suc, err = pcall(loadVape)
+	if suc then
+		shared.VoidwareRecoveryReinject = nil
+		shared.VoidwareRecoveryStage2 = nil
+	else
+		if shared.VoidwareDeveloper then
+		task.spawn(errorNotification, "Voidware", "Failed to load the current profiles | "..err)
+		error(err)
+		else
+		--task.spawn(recoverVoidware)
+		end
+	end
 end
