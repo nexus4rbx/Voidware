@@ -329,7 +329,7 @@ return (function(hi)
 		registerStep('Downloading vape/Profiles/'..v, function()
 			local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
 			if res ~= '404: Not Found' then 
-				writevapefile(v, res) 
+				writevapefile('Profiles/'..v, res) 
 			end
 		end)
 	end
