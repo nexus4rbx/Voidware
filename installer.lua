@@ -351,9 +351,9 @@ return (function(hi)
 
     for i,v in next, guiprofiles do 
         registerStep('Downloading vape/Profiles/'..v, function()
-            if not installprofile then 
-                return 
-            end
+			--if not installprofile then  [Needs testing]
+            --    return 
+            --end
             local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
             if res ~= '404: Not Found' then 
                 writevapefile('Profiles/'..v, res) 
