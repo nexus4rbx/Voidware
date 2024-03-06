@@ -325,24 +325,12 @@ return (function(hi)
 		end)
 	end
 
-	local guiprofiles = {'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}
-	local profilesfetched
-
-	registerStep('Getting Profiles...', function()
-		repeat task.wait() until profilesfetched
-	end)
-
-	repeat task.wait() until profilesfetched
-
+local guiprofiles = {'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}
 	for i,v in next, guiprofiles do 
 		registerStep('Downloading vape/Profiles/'..v, function()
-			if not installprofile then 
-				return 
-			end
 			local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
 			if res ~= '404: Not Found' then 
-				writevapefile('Profiles/'..v, res) 
+				writevapefile(v, res) 
 			end
 		end)
 	end
-end)
