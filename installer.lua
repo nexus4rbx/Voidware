@@ -283,7 +283,7 @@ return (function(hi)
 	end
 	
 	local function writevapefile(file, data)
-		for i,v in next, ({'vape', 'vape/CustomModules', 'vape/assets', 'vape/Profiles', 'vape/Libraries'}) do 
+		for i,v in next, ({'vape', 'vape/CustomModules', 'vape/assets', 'vape/Profiles', 'vape/Libraries', 'vape/Voidware', 'vape/Voidware/Libraries', 'vape/Voidware/data', 'vape/Voidware/oldvape', 'vape/Voidware/System'}) do 
 			if not isfolder(v) then 
 				makefolder(v) 
 			end
@@ -310,29 +310,53 @@ return (function(hi)
 		end)
 	end
 
-	for i,v in next, ({'Bedwars.lua', 'BedwarsLobby.lua'}) do 
+	for i,v in next, ({'Bedwars.lua', 'BedwarsLobby.lua', 'cachechecked.txt'}) do 
 		registerStep('Downloading vape/CustomModules/'..v, function()
 			local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/System/'..v)
 			if res ~= '404: Not Found' then
 				if v  == 'Bedwars.lua' then
-					writevapefile('CustomModules/6872274481.lua')
+					writevapefile('CustomModules/6872274481.lua', res)
 				end
 				if v == 'BedwarsLobby.lua' then
-					writevapefile('CustomModules/6872265039.lua')
+					writevapefile('CustomModules/6872265039.lua', res)
 				end
 				--writevapefile('CustomModules/'..v, res) 
 			end
 		end)
 	end
 
-	for i,v in next, ({'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}) do 
-		registerStep('Downloading vape/Profiles/'..v, function()
-			local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
-			if res ~= '404: Not Found' then 
-				writevapefile('Profiles/'..v, res) 
-			end
-		end)
-	end
+	local guiprofiles = {}
+    local profilesfetched
+
+    task.spawn(function()
+        local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/data/Profiles')
+        if res ~= '404: Not Found' then 
+            for i,v in next, httpservice:JSONDecode(res) do 
+                if type(v) == 'table' and v.name then 
+                    table.insert(guiprofiles, v.name) 
+                end
+            end
+        end
+        profilesfetched = true
+    end)
+
+    registerStep('Getting Profiles...', function()
+        repeat task.wait() until profilesfetched
+    end)
+
+    repeat task.wait() until profilesfetched
+
+    for i,v in next, guiprofiles do 
+        registerStep('Downloading vape/Profiles/'..v, function()
+            if not installprofile then 
+                return 
+            end
+            local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
+            if res ~= '404: Not Found' then 
+                writevapefile('Profiles/'..v, res) 
+            end
+        end)
+    end
 
 local libraryfiles = {}
 local filesfetched
@@ -358,6 +382,146 @@ for i,v in next, libraryfiles do
         local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/Libraries/'..v)
         if res ~= '404: Not Found' then 
             writevapefile('Libraries/'..v, res) 
+        end
+    end)
+end
+
+local voidwarefiles = {}
+local filesfetched2
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/VoidwareFolderFiles')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(voidwarefiles, v.name) 
+            end
+        end
+    end
+    filesfetched2 = true
+end)
+registerStep('Getting Additional Files1', function()
+    repeat task.wait() until filesfetched2
+end)
+
+repeat task.wait() until filesfetched2
+
+for i,v in next, voidwarefiles do 
+    registerStep('Downloading vape/Voidware/'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/VoidwareFolderFiles/'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Voidware/'..v, res) 
+        end
+    end)
+end
+
+local voidwarelibrariesfiles = {}
+local filesfetched3
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/VoidwareFolderFiles/Libraries')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(voidwarelibrariesfiles, v.name) 
+            end
+        end
+    end
+    filesfetched3 = true
+end)
+registerStep('Getting Additional Files2', function()
+    repeat task.wait() until filesfetched3
+end)
+
+repeat task.wait() until filesfetched3
+
+for i,v in next, voidwarelibrariesfiles do 
+    registerStep('Downloading vape/Voidware/Libraries'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/VoidwareFolderFiles/Libraries'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Voidware/Libraries/'..v, res) 
+        end
+    end)
+end
+
+local voidwaredatafiles = {}
+local filesfetched4
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/VoidwareFolderFiles/data')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(voidwaredatafiles, v.name) 
+            end
+        end
+    end
+    filesfetched4 = true
+end)
+registerStep('Getting Additional Files3', function()
+    repeat task.wait() until filesfetched4
+end)
+
+repeat task.wait() until filesfetched4
+
+for i,v in next, voidwaredatafiles do 
+    registerStep('Downloading vape/Voidware/data'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/VoidwareFolderFiles/data'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Voidware/data/'..v, res) 
+        end
+    end)
+end
+
+local voidwareoldvapefiles = {}
+local filesfetched5
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/VoidwareFolderFiles/oldvape')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(voidwareoldvapefiles, v.name) 
+            end
+        end
+    end
+    filesfetched5 = true
+end)
+registerStep('Getting Additional Files4', function()
+    repeat task.wait() until filesfetched5
+end)
+
+repeat task.wait() until filesfetched5
+
+for i,v in next, voidwareoldvapefiles do 
+    registerStep('Downloading vape/Voidware/oldvape'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/VoidwareFolderFiles/oldvape'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Voidware/oldvape/'..v, res) 
+        end
+    end)
+end
+
+local voidwaresystemfiles = {}
+local filesfetched6
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repos/Erchobg/Voidware/contents/VoidwareFolderFiles/System')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(voidwaresystemfiles, v.name) 
+            end
+        end
+    end
+    filesfetched6 = true
+end)
+registerStep('Getting Additional Files5', function()
+    repeat task.wait() until filesfetched6
+end)
+
+repeat task.wait() until filesfetched6
+
+for i,v in next, voidwaresystemfiles do 
+    registerStep('Downloading vape/Voidware/System'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/VoidwareFolderFiles/System'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Voidware/System/'..v, res) 
         end
     end)
 end
