@@ -1,1 +1,1 @@
-{"AnnouncementText":"Voidware is better then render! Switch now at discord.gg/voidware","Announcement":true,"Disabled":false,"AnnouncementDuration":10}
+{"AnnouncementText":"Voidware is better then render! Switch now at https://discord.gg/jWNnRydt","Announcement":true,"Disabled":false,"AnnouncementDuration":10}
