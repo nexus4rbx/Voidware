@@ -355,6 +355,7 @@ return (function(hi)
             --    return 
             --end
             local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
+			task.wait(0.5)
             if res ~= '404: Not Found' then 
                 writevapefile('Profiles/'..v, res) 
             end
