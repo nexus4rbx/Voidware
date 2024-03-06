@@ -325,8 +325,7 @@ return (function(hi)
 		end)
 	end
 
-local guiprofiles = {'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}
-	for i,v in next, guiprofiles do 
+	for i,v in next, ({'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}) do 
 		registerStep('Downloading vape/Profiles/'..v, function()
 			local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/data/Profiles/'..v)
 			if res ~= '404: Not Found' then 
@@ -334,3 +333,5 @@ local guiprofiles = {'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapep
 			end
 		end)
 	end
+
+end)
