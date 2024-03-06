@@ -276,14 +276,14 @@ return (function(hi)
 		until not gui.Parent
 	end)
 	
-	local profiles = createbutton({Name = 'No Settings'})
+	local profiles = createbutton({Name = 'Have profiles?'})
 	
 	if getgenv then 
 		getgenv().voidwareinstaller = gui 
 	end
 	
 	local function writevapefile(file, data)
-		for i,v in next, ({'vape', 'vape/CustomModules', 'vape/assets', 'vape/Profiles'}) do 
+		for i,v in next, ({'vape', 'vape/CustomModules', 'vape/assets', 'vape/Profiles', 'vape/Libraries'}) do 
 			if not isfolder(v) then 
 				makefolder(v) 
 			end
@@ -333,5 +333,33 @@ return (function(hi)
 			end
 		end)
 	end
+
+local libraryfiles = {}
+local filesfetched
+task.spawn(function()
+    local res = game:HttpGet('https://api.github.com/repositories/766942572/contents/Libraries')
+    if res ~= '404: Not Found' then 
+        for i,v in next, httpservice:JSONDecode(res) do 
+            if type(v) == 'table' and v.name then 
+                table.insert(libraryfiles, v.name) 
+            end
+        end
+    end
+    filesfetched = true
+end)
+registerStep('Getting Additional File:', function()
+    repeat task.wait() until filesfetched
+end)
+
+repeat task.wait() until filesfetched
+
+for i,v in next, libraryfiles do 
+    registerStep('Downloading vape/Libraries/'..v, function()
+        local res = game:HttpGet('https://raw.githubusercontent.com/Erchobg/Voidware/main/Libraries/'..v)
+        if res ~= '404: Not Found' then 
+            writevapefile('Libraries/'..v, res) 
+        end
+    end)
+end
 
 end)
