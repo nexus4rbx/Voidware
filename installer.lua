@@ -276,7 +276,7 @@ return (function(hi)
 		until not gui.Parent
 	end)
 	
-	local profiles = createbutton({Name = 'Have profiles?'})
+	local profiles = createbutton({Name = 'Have profiles? (temporarily disabled - will install profiles even if its not on)'})
 	
 	if getgenv then 
 		getgenv().voidwareinstaller = gui 
