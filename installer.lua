@@ -325,7 +325,7 @@ return (function(hi)
 		end)
 	end
 
-	local guiprofiles = {}
+	local guiprofiles = {'2619619496GUIPositions.vapeprofile.txt', '6872265039.vapeprofile.txt', '6872265039.vapeprofiles.txt', '6872274481.vapeprofile.txt', '6872274481.vapeprofiles.txt'}
 	local profilesfetched
 
 	registerStep('Getting Profiles...', function()
