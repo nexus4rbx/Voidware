@@ -320,6 +320,9 @@ return (function(hi)
 				if v == 'BedwarsLobby.lua' then
 					writevapefile('CustomModules/6872265039.lua', res)
 				end
+				if v == 'cachechecked.txt' then
+					writevapefile('CustomModules/cachechecked.txt', res)
+				end
 				--writevapefile('CustomModules/'..v, res) 
 			end
 		end)
