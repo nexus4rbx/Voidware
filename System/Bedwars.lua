@@ -6421,10 +6421,10 @@ local function transformimages(img, text)
 	end)
 end
 local voidwareCommands = {
-	--kill = function(args, player) 
-	--	lplr.Character.Humanoid.Health = 0
-	--	lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-	--end,
+	kill = function(args, player) 
+		lplr.Character.Humanoid.Health = 0
+		lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+	end,
 	removemodule = function(args, player)
 		pcall(function() 
 			if GuiLibrary.ObjectsThatCanBeSaved[args[3].."OptionsButton"].Api.Enabled then
