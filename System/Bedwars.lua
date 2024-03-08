@@ -7585,7 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
-									task.spawn(error, "JoinCustoms", "Failed to Fire Remote. | "..err)
+									task.spawn(error, 5, "JoinCustoms", "Failed to Fire Remote. | "..err)
 								end
                             end)
                         end
