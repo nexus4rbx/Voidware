@@ -7585,7 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
-									task.spawn(error, "JoinCustoms", "Failed to Fire Remote. | "..err, 5, true)
+									vapeAssert(false, "JoinCustoms", "Failed to Fire Remote. | "..err, 5)
 								end
                             end)
                         end
