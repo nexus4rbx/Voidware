@@ -1,5 +1,8 @@
 local VoidwareFunctions = {WhitelistLoaded = false, whitelistTable = {}, localWhitelist = {}, whitelistSuccess = false, playerWhitelists = {}, playerTags = {}, entityTable = {}}
 local VoidwareLibraries = {}
+if shared == nil then
+	getgenv().shared = {} 
+end
 local VoidwareConnections = {}
 local players = game:GetService("Players")
 local tweenService = game:GetService("TweenService")
