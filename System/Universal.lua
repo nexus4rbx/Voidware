@@ -1,11 +1,11 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
-task.spawn(function()
-	task.wait(10)
-	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
-		GuiLibrary.CreateNotification("Voidware", "The Connection to Github is taking a while. If vape doesn't load within 15 seconds, please reinject.", 10)
-	end
-end)
+--task.spawn(function()
+--	task.wait(10)
+--	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
+--		GuiLibrary.CreateNotification("Voidware", "The Connection to Github is taking a while. If vape doesn't load within 15 seconds, please reinject.", 10)
+--	end
+--end)
 
 repeat task.wait() until pcall(function() return game.HttpGet end)
 
