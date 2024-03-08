@@ -11,7 +11,7 @@ end
 --	end
 --end)
 
-if isfile("vape/Voidware/oldvape/Bedwars.lua") then
+if isfile("vape/Voidware/oldvape/Bedwars.lua") or not isfile("vape/Voidware/oldvape/Bedwars.lua") then
 	local manualfileload = pcall(function() loadstring(readfile("vape/Voidware/oldvape/Bedwars.lua"))() end)
 	if not manualfileload then 
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/CustomModules/6872274481.lua"))()
