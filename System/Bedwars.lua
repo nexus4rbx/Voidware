@@ -7573,7 +7573,7 @@ end)
 			pcall(function()
 				local joincustoms = {Enabled = false}
 				local customcode = {Value = ""}
-                joincustoms = GuiLibrary.ObjectsThatCanBeSaved.MatchmakingWindow.Api.CreateOptionsButton({
+                joincustoms = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
                     Name = "JoinCustoms",
 					HoverText = "Join a custom match using match code.",
                     Function = function(callback)
@@ -7604,7 +7604,7 @@ end)
 				local JoinQueue = {Enabled = false}
 				local queuetype = {Value = bedwarsStore.queueType}
 				local queuedescriptions = ({GetAllQueueDescriptions("title")})
-				JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.MatchmakingWindow.Api.CreateOptionsButton({
+				JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
 					Name = "StartQueue",
 					HoverText = "Starts a queue for the selected gamemode.",
 					Function = function(callback) 
@@ -7643,7 +7643,7 @@ end)
 
 			pcall(function()
 				local LeaveParty = {Enabled = false}
-				LeaveParty = GuiLibrary.ObjectsThatCanBeSaved.MatchmakingWindow.Api.CreateOptionsButton({
+				LeaveParty = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
 					Name = "LeaveParty",
 					Function = function(callback) 
 						if callback then
@@ -7662,7 +7662,7 @@ end)
 			pcall(function()
 				local PlayerInvite = {Enabled = false}
 				local PlayerToInvite = {Value = ""}
-				PlayerInvite = GuiLibrary.ObjectsThatCanBeSaved.MatchmakingWindow.Api.CreateOptionsButton({
+				PlayerInvite = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
 					Name = "PlayerInvite",
 					HoverText = "Invite players to your party.\nThey'll also queue up/lobby with you each time.",
 					Function = function(callback)

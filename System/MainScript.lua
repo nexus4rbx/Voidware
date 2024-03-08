@@ -1,3 +1,4 @@
+-- Voidware Custom Vape Signed File
 repeat task.wait() until game:IsLoaded()
 local GuiLibrary
 if shared == nil then
@@ -247,6 +248,11 @@ task.spawn(function()
 end)
 
 local GUI = GuiLibrary.CreateMainWindow()
+local Voidware = GuiLibrary.CreateWindow({
+	Name = "Voidware", 
+	Icon = "vape/assets/UtilityIcon.png", 
+	IconSize = 16
+})
 local Combat = GuiLibrary.CreateWindow({
 	Name = "Combat", 
 	Icon = "vape/assets/CombatIcon.png", 
@@ -272,11 +278,6 @@ local World = GuiLibrary.CreateWindow({
 	Icon = "vape/assets/WorldIcon.png", 
 	IconSize = 16
 })
-local Matchmaking = GuiLibrary.CreateWindow({
-	Name = "Matchmaking", 
-	Icon = "vape/assets/SliderArrow1.png", 
-	IconSize = 16
-})
 local Friends = GuiLibrary.CreateWindow2({
 	Name = "Friends", 
 	Icon = "vape/assets/FriendsIcon.png", 
@@ -293,6 +294,12 @@ local Profiles = GuiLibrary.CreateWindow2({
 	IconSize = 19
 })
 GUI.CreateDivider()
+GUI.CreateButton({
+	Name = "Voidware", 
+	Function = function(callback) Voidware.SetVisible(callback) end, 
+	Icon = "vape/assets/UtilityIcon.png", 
+	IconSize = 16
+})
 GUI.CreateButton({
 	Name = "Combat", 
 	Function = function(callback) Combat.SetVisible(callback) end, 
@@ -321,12 +328,6 @@ GUI.CreateButton({
 	Name = "World", 
 	Function = function(callback) World.SetVisible(callback) end, 
 	Icon = "vape/assets/WorldIcon.png", 
-	IconSize = 16
-})
-GUI.CreateButton({
-	Name = "Matchmaking", 
-	Function = function(callback) Matchmaking.SetVisible(callback) end, 
-	Icon = "vape/assets/SliderArrow1.png", 
 	IconSize = 16
 })
 GUI.CreateDivider("MISC")
@@ -1336,11 +1337,12 @@ local windowSortOrder = {
 	RenderButton = 3,
 	UtilityButton = 4,
 	WorldButton = 5,
-	FriendsButton = 6,
-	TargetsButton = 7,
-	ProfilesButton = 8
+	VoidwareButton = 6,
+	FriendsButton = 7,
+	TargetsButton = 8,
+	ProfilesButton = 9
 }
-local windowSortOrder2 = {"Combat", "Blatant", "Render", "Utility", "World"}
+local windowSortOrder2 = {"Combat", "Blatant", "Render", "Utility", "World", "Voidware"}
 
 local function getVapeSaturation(val)
 	local sat = 0.9
@@ -1665,12 +1667,13 @@ GUISettings.CreateButton2({
 			RenderWindow = 4,
 			UtilityWindow = 5,
 			WorldWindow = 6,
-			FriendsWindow = 7,
-			TargetsWindow = 8,
-			ProfilesWindow = 9,
-			["Text GUICustomWindow"] = 10,
-			TargetInfoCustomWindow = 11,
-			RadarCustomWindow = 12,
+			VoidwareWindow = 7,
+			FriendsWindow = 8,
+			TargetsWindow = 9,
+			ProfilesWindow = 10,
+			["Text GUICustomWindow"] = 11,
+			TargetInfoCustomWindow = 12,
+			RadarCustomWindow = 13
 		}
 		local storedpos = {}
 		local num = 6
@@ -1788,4 +1791,3 @@ if shared.VapeIndependent then
 else
 	loadVape()
 end
-
