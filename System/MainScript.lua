@@ -1613,22 +1613,6 @@ GuiLibrary.SelfDestruct = function()
 	game:GetService("RunService"):SetRobloxGuiFocused(false)	
 end
 
-local performance = {}
-performance = GeneralSettings.CreateToggle({
-	Name = "Performance Mode", 
-	HoverText = "For developers.",
-	Function = function(calling) 
-		getgenv().RenderPerformance = calling
-	end
-})
-
-GeneralSettings.CreateToggle({
-	Name = "Debug Mode", 
-	HoverText = "For developers.",
-	Function = function(callback) 
-		getgenv().RenderDebug = callback
-	end
-})
 GeneralSettings.CreateButton2({
 	Name = "RESET CURRENT PROFILE", 
 	Function = function()
