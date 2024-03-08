@@ -2098,42 +2098,46 @@ task.spawn(function()
 		})
 		customcode.SetValue("")
 	end)
-	runFunction(function()
-		local JoinQueue = {Enabled = false}
-		local queuetype = {Value = bedwarsStore.queueType}
-		local queuedescriptions = ({GetAllQueueDescriptions("title")})
+	runFunction(function() 
+		local JoinQueue = {}
+		local queuetojoin = {Value = ''}
+		local function dumpmeta()
+			local queuemeta = {}
+			for i,v in next, bedwars.QueueMeta do 
+				if v.title ~= 'Sandbox' and not v.disabled then 
+					table.insert(queuemeta, v.title) 
+				end 
+			end 
+			return queuemeta
+		end
 		JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
-			Name = "StartQueue",
-			HoverText = "Starts a queue for the selected gamemode.",
-			Function = function(callback) 
-				if callback then
-					task.spawn(function()
-						JoinQueue.ToggleButton(false)
-						local queue = nil 
-						for i,v in pairs(queuedescriptions[2]) do 
-							if v == queuetype.Value then 
-								queue = i
-								break
-							end
+			Name = 'StartQueue',
+			NoSave = true,
+			HoverText = 'Starts a match for the provided gamemode.',
+			Function = function(calling)
+				if calling then 
+					for i,v in next, bedwars.QueueMeta do 
+						if v.title == queuetojoin.Value then 
+							replicatedStorageService['events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events'].leaveQueue:FireServer()
+							task.wait(0.1)
+							bedwars.LobbyClientEvents:joinQueue(i) 
+							break
 						end
-						InfoNotification("StartQueue", "QueueType not found.")
-						pcall(function() bedwars.LobbyEvents.leaveQueue:FireServer() end)
-						bedwars.LobbyClientEvents:joinQueue(queue)
-					end)
+					end
+					JoinQueue.ToggleButton()
 				end
 			end
 		})
-		queuetype = JoinQueue.CreateDropdown({
-			Name = "Mode",
-			List = queuedescriptions[1],
+		queuetojoin = JoinQueue.CreateDropdown({
+			Name = 'QueueType',
+			List = dumpmeta(),
 			Function = function() end
 		})
 		task.spawn(function()
-			repeat task.wait() until bedwarsStore.queueType ~= "bedwars_test"
-			for i,v in pairs(queuedescriptions[2]) do 
-				if i == bedwarsStore.queueType then
-					queuetype.SetValue(v)
-					break
+			repeat task.wait() until shared.VapeFullyLoaded 
+			for i,v in next, bedwars.QueueMeta do 
+				if i == bedwarsStore.queueType then 
+					queuetojoin.SetValue(v.title) 
 				end
 			end
 		end)
