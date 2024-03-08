@@ -7585,7 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
-									InfoNotification("JoinCustoms", "Failed to Fire Remote. | "..err)
+									InfoNotification("JoinCustoms", "Failed to Fire Remote.")
 								end
                             end)
                         end
