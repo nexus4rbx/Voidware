@@ -1,5 +1,5 @@
 local GuiLibrary = shared.GuiLibrary
-local vapeonlineresponse = false
+local vapeonlineresponse = true
 task.spawn(function()
 	task.wait(10)
 	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
