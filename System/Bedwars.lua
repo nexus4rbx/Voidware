@@ -1,6 +1,6 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
-local platform = platform
+local platform = inputService:GetPlatform()
 
 if shared == nil then
 	getgenv().shared = {} 
