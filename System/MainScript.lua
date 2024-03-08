@@ -146,7 +146,7 @@ local function vapeGithubRequest(scripturl)
 		local suc, res
 		task.delay(15, function()
 			if not res and not errorPopupShown then 
-				errorPopupShown = true
+				--errorPopupShown = true
 				displayErrorPopup("The connection to github is taking a while, Please be patient.")
 			end
 		end)
