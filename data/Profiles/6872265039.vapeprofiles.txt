@@ -1,1 +1,1 @@
-{"default":{"Selected":true,"Keybind":""},"Ghost":{"Selected":false,"Keybind":""}}
+{"default":{"Keybind":"","Selected":true},"Ghost":{"Keybind":"","Selected":false}}
