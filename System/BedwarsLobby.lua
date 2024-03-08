@@ -2098,69 +2098,6 @@ task.spawn(function()
 		})
 		customcode.SetValue("")
 	end)
-	runFunction(function() 
-		local JoinQueue = {}
-		local queuetojoin = {Value = ''}
-		local function dumpmeta()
-			local queuemeta = {}
-			for i,v in next, bedwars.QueueMeta do 
-				if v.title ~= 'Sandbox' and not v.disabled then 
-					table.insert(queuemeta, v.title) 
-				end 
-			end 
-			return queuemeta
-		end
-		JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
-			Name = 'StartQueue',
-			NoSave = true,
-			HoverText = 'Starts a match for the provided gamemode.',
-			Function = function(calling)
-				if calling then 
-					for i,v in next, bedwars.QueueMeta do 
-						if v.title == queuetojoin.Value then 
-							replicatedStorageService['events-@easy-games/lobby:shared/event/lobby-events@getEvents.Events'].leaveQueue:FireServer()
-							task.wait(0.1)
-							bedwars.LobbyClientEvents:joinQueue(i) 
-							break
-						end
-					end
-					JoinQueue.ToggleButton()
-				end
-			end
-		})
-		queuetojoin = JoinQueue.CreateDropdown({
-			Name = 'QueueType',
-			List = dumpmeta(),
-			Function = function() end
-		})
-		task.spawn(function()
-			repeat task.wait() until shared.VapeFullyLoaded 
-			for i,v in next, bedwars.QueueMeta do 
-				if i == bedwarsStore.queueType then 
-					queuetojoin.SetValue(v.title) 
-				end
-			end
-		end)
-	end)
-
-	runFunction(function()
-		local LeaveParty = {Enabled = false}
-		LeaveParty = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
-			Name = "LeaveParty",
-			Function = function(callback) 
-				if callback then
-					task.spawn(function()
-						LeaveParty.ToggleButton(false)
-						if #bedwars.ClientStoreHandler:getState().Party.members > 0 then
-							bedwars.LobbyEvents.leaveParty:FireServer()
-						end
-					end)
-				end
-			end
-		})
-	end)
-
-	local partymoduletoggled = false
 	runFunction(function()
 		local PlayerInvite = {Enabled = false}
 		local PlayerToInvite = {Value = ""}
