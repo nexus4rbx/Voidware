@@ -1,5 +1,6 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
+local inputService = game:GetService("UserInputService")
 local platform = inputService:GetPlatform()
 
 if shared == nil then
@@ -46,7 +47,6 @@ local playersService = game:GetService("Players")
 local textService = game:GetService("TextService")
 local lightingService = game:GetService("Lighting")
 local textChatService = game:GetService("TextChatService")
-local inputService = game:GetService("UserInputService")
 local runService = game:GetService("RunService")
 local tweenService = game:GetService("TweenService")
 local collectionService = game:GetService("CollectionService")

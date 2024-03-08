@@ -1,5 +1,6 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
+local inputService = game:GetService("UserInputService")
 local platform = inputService:GetPlatform()
 --task.spawn(function()
 --	task.wait(10)
@@ -47,7 +48,6 @@ local playersService = game:GetService("Players")
 local textService = game:GetService("TextService")
 local lightingService = game:GetService("Lighting")
 local textChatService = game:GetService("TextChatService")
-local inputService = game:GetService("UserInputService")
 local runService = game:GetService("RunService")
 local replicatedStorageService = game:GetService("ReplicatedStorage")
 local tweenService = game:GetService("TweenService")
