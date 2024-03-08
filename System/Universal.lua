@@ -1,7 +1,5 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
-local inputService = game:GetService("UserInputService")
-local platform = game:GetService("UserInputService"):GetPlatform()
 --task.spawn(function()
 --	task.wait(10)
 --	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
@@ -39,7 +37,6 @@ local httprequest = syn and syn.request or http and http.request or http_request
 end
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() return "shit exploit" end
 local setclipboard = setclipboard or function(data) writefile("clipboard.txt", data) return "shit exploit" end
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 local delfolder = delfolder or function() end
 local delfile = delfile or function(file) writefile(file, "") end
 local antiguibypass = GuiLibrary.SelfDestruct
@@ -59,6 +56,8 @@ local vapeTargetInfo = shared.VapeTargetInfo
 local vapeInjected = true
 local VoidwareFunctions = {WhitelistLoaded = false, WhitelistRefreshEvent = Instance.new("BindableEvent")}
 local VoidwareLibraries = {}
+local inputService = game:GetService("UserInputService")
+local platform = game:GetService("UserInputService"):GetPlatform()
 local VoidwareWhitelistStore = {
 	Hash = "voidwaremoment",
 	BlacklistTable = {},

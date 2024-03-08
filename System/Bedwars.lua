@@ -1,7 +1,5 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
-local inputService = game:GetService("UserInputService")
-local platform = game:GetService("UserInputService"):GetPlatform()
 
 if shared == nil then
 	getgenv().shared = {} 
@@ -55,6 +53,8 @@ local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
 local vapeConnections = {}
 local vapeCachedAssets = {}
+local inputService = game:GetService("UserInputService")
+local platform = game:GetService("UserInputService"):GetPlatform()
 local vapeEvents = setmetatable({}, {
 	__index = function(self, index)
 		self[index] = Instance.new("BindableEvent")
