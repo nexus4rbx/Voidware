@@ -114,7 +114,7 @@ local VoidwareStore = {
 	ServerDelay = 0,
 	scytheMoveVec = false,
 	SentTick = tick(),
-	MobileInUse = (platform == Enum.Platform.Android or platform == Enum.Platform.IOS),
+	MobileInUse = (inputService:GetPlatform() == Enum.Platform.Android or inputService:GetPlatform() == Enum.Platform.IOS),
 	vapePrivateCommands = {},
 	Enums = {},
 	ChatCommands = {},
