@@ -7585,12 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
-									task.spawn(error, "JoinCustoms - Failed to Fire Remote. | "..err)
-									pcall(function()
-										local notification = GuiLibrary.CreateNotification("Failure loading "..file..".lua", err, 25, "assets/WarningNotification.png")
-											notification.IconLabel.ImageColor3 = Color3.new(220, 0, 0)
-											notification.Frame.Frame.ImageColor3 = Color3.new(220, 0, 0)
-	    									end)
+									InfoNotification("JoinCustoms", "Failed to Fire Remote. | "..err)
 								end
                             end)
                         end
@@ -7623,7 +7618,7 @@ end)
 										break
 									end
 								end
-								vapeAssert(false, "StartQueue", "QueueType not found.", 5)
+								InfoNotification("StartQueue", "QueueType not found.")
 								pcall(function() bedwars.LobbyEvents.leaveQueue:FireServer() end)
 								bedwars.LobbyClientEvents:joinQueue(queue)
 							end)
