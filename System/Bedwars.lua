@@ -1,7 +1,7 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
 local inputService = game:GetService("UserInputService")
-local platform = inputService:GetPlatform()
+local platform = UserInputService:GetPlatform()
 
 if shared == nil then
 	getgenv().shared = {} 

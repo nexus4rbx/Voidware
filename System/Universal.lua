@@ -1,7 +1,7 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
 local inputService = game:GetService("UserInputService")
-local platform = inputService:GetPlatform()
+local platform = UserInputService:GetPlatform()
 --task.spawn(function()
 --	task.wait(10)
 --	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
