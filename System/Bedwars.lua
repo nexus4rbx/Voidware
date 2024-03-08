@@ -38,7 +38,6 @@ local httprequest = syn and syn.request or http and http.request or http_request
 end
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
 local setclipboard = setclipboard or function(data) writefile("clipboard.txt", data) end
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 local delfolder = delfolder or function() end
 local antiguibypass = GuiLibrary.SelfDestruct
 local httpService = game:GetService("HttpService")
