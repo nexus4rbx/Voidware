@@ -3100,7 +3100,7 @@ runFunction(function()
 	local PingDetectorMaxping = {Value = 10000}
 	local PingDetectorLeave = {Enabled = false}
 	local pingdetected = false
-	PingDetector = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
+	PingDetector = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
 		Name = "PingDetector",
 		HoverText = "run actions whenever your pings reaches/goes over a certain level.",
 		Function = function(callback)
