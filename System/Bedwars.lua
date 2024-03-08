@@ -7618,7 +7618,7 @@ end)
 										break
 									end
 								end
-								task.spawn(error, "StartQueue", "QueueType not found.", 7, true)
+								vapeAssert(false, "StartQueue", "QueueType not found.", 5)
 								pcall(function() bedwars.LobbyEvents.leaveQueue:FireServer() end)
 								bedwars.LobbyClientEvents:joinQueue(queue)
 							end)
