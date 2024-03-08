@@ -9270,7 +9270,7 @@ end)]]
 	end)
 end)]]
 
-runFunction(function() 
+--[[runFunction(function() 
 	local JoinQueue = {}
 	local queuetojoin = {Value = ''}
 	local function dumpmeta()
@@ -9313,7 +9313,7 @@ runFunction(function()
 			end
 		end
 	end)
-end)
+end) --]
 
 --[[runFunction(function() 
 	local Invisibility = {}
