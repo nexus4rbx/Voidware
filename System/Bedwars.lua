@@ -7586,11 +7586,11 @@ end)
 									customcode.SetValue("")
 								else
 									task.spawn(error, "JoinCustoms - Failed to Fire Remote. | "..err)
-									--pcall(function()
-									--	local notification = GuiLibrary.CreateNotification("Failure loading "..file..".lua", err, 25, "assets/WarningNotification.png")
-									--		notification.IconLabel.ImageColor3 = Color3.new(220, 0, 0)
-									--		notification.Frame.Frame.ImageColor3 = Color3.new(220, 0, 0)
-	    							--		end)
+									pcall(function()
+										local notification = GuiLibrary.CreateNotification("Failure loading "..file..".lua", err, 25, "assets/WarningNotification.png")
+											notification.IconLabel.ImageColor3 = Color3.new(220, 0, 0)
+											notification.Frame.Frame.ImageColor3 = Color3.new(220, 0, 0)
+	    									end)
 								end
                             end)
                         end
