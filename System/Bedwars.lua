@@ -7570,7 +7570,7 @@ end)
 					})
 				end)
 
-			pcall(function()
+			runFunction(function()
 				local joincustoms = {Enabled = false}
 				local customcode = {Value = ""}
                 joincustoms = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
@@ -7585,6 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
+									customcode.SetValue("")
 									InfoNotification("JoinCustoms", "Failed to Fire Remote.")
 								end
                             end)
@@ -7600,7 +7601,7 @@ end)
 				customcode.SetValue("")
 			end)
 
-			pcall(function()
+			runFunction(function()
 				local JoinQueue = {Enabled = false}
 				local queuetype = {Value = bedwarsStore.queueType}
 				local queuedescriptions = ({GetAllQueueDescriptions("title")})
@@ -7641,7 +7642,7 @@ end)
 				end)
 			end)
 
-			pcall(function()
+			runFunction(function()
 				local LeaveParty = {Enabled = false}
 				LeaveParty = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
 					Name = "LeaveParty",
@@ -7659,7 +7660,7 @@ end)
 			end)
 
 			local partymoduletoggled = false
-			pcall(function()
+			runFunction(function()
 				local PlayerInvite = {Enabled = false}
 				local PlayerToInvite = {Value = ""}
 				PlayerInvite = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({

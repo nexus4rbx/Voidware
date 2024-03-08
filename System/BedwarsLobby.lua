@@ -2068,3 +2068,141 @@ task.spawn(function()
 			HoverText = 'Auto Open Lucky Crate'
 		})
 	end)
+	runFunction(function()
+		local joincustoms = {Enabled = false}
+		local customcode = {Value = ""}
+		joincustoms = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+			Name = "JoinCustoms",
+			HoverText = "Join a custom match using match code.",
+			Function = function(callback)
+				if callback then
+					task.spawn(function()
+						joincustoms.ToggleButton(false)
+						local GUID = httpService:GenerateGUID(true)
+						local success, err = pcall(function() bedwars.ClientHandler:Get("CustomMatches/JoinByCode"):SendToServer(GUID, {customcode.Value}) end)
+						if success then 
+							customcode.SetValue("")
+						else
+							customcode.SetValue("")
+							InfoNotification("JoinCustoms", "Failed to Fire Remote.")
+						end
+					end)
+				end
+			end,
+			HoverText = "Join a existing custom match faster."
+		})
+		customcode = joincustoms.CreateTextBox({
+			Name = "Match code",
+			TempText = "code for the match",
+			Function = function() end
+		})
+		customcode.SetValue("")
+	end)
+	runFunction(function()
+		local JoinQueue = {Enabled = false}
+		local queuetype = {Value = bedwarsStore.queueType}
+		local queuedescriptions = ({GetAllQueueDescriptions("title")})
+		JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+			Name = "StartQueue",
+			HoverText = "Starts a queue for the selected gamemode.",
+			Function = function(callback) 
+				if callback then
+					task.spawn(function()
+						JoinQueue.ToggleButton(false)
+						local queue = nil 
+						for i,v in pairs(queuedescriptions[2]) do 
+							if v == queuetype.Value then 
+								queue = i
+								break
+							end
+						end
+						InfoNotification("StartQueue", "QueueType not found.")
+						pcall(function() bedwars.LobbyEvents.leaveQueue:FireServer() end)
+						bedwars.LobbyClientEvents:joinQueue(queue)
+					end)
+				end
+			end
+		})
+		queuetype = JoinQueue.CreateDropdown({
+			Name = "Mode",
+			List = queuedescriptions[1],
+			Function = function() end
+		})
+		task.spawn(function()
+			repeat task.wait() until bedwarsStore.queueType ~= "bedwars_test"
+			for i,v in pairs(queuedescriptions[2]) do 
+				if i == bedwarsStore.queueType then
+					queuetype.SetValue(v)
+					break
+				end
+			end
+		end)
+	end)
+
+	runFunction(function()
+		local LeaveParty = {Enabled = false}
+		LeaveParty = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+			Name = "LeaveParty",
+			Function = function(callback) 
+				if callback then
+					task.spawn(function()
+						LeaveParty.ToggleButton(false)
+						if #bedwars.ClientStoreHandler:getState().Party.members > 0 then
+							bedwars.LobbyEvents.leaveParty:FireServer()
+						end
+					end)
+				end
+			end
+		})
+	end)
+
+	local partymoduletoggled = false
+	runFunction(function()
+		local PlayerInvite = {Enabled = false}
+		local PlayerToInvite = {Value = ""}
+		PlayerInvite = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+			Name = "PlayerInvite",
+			HoverText = "Invite players to your party.\nThey'll also queue up/lobby with you each time.",
+			Function = function(callback)
+				if callback then
+					task.spawn(function()
+						PlayerInvite.ToggleButton(false)
+						local plr = GetPlayerByName(PlayerToInvite.Value)
+						if plr and bedwars.ClientStoreHandler:getState().Party.leader.userId == lplr.UserId then 
+							local successful = pcall(function() bedwars.LobbyEvents.inviteToParty:FireServer({player = plr}) end) 
+							if successful then 
+								PlayerToInvite.SetValue("")
+								InfoNotification("PartyInvite", "Invited "..plr.DisplayName.."!", 5)
+								partymoduletoggled = true
+							end
+						end
+					end)
+				end
+			end
+		})
+		PlayerToInvite = PlayerInvite.CreateTextBox({
+			Name = "Player",
+			TempText = "Player Display/User (not sensetive)",
+			Function = function() end
+		})
+		PlayerToInvite.Object.AddBoxBKG.AddBox.TextSize = 13
+		PlayerToInvite.SetValue("")
+	end)
+
+	task.spawn(function()
+		repeat task.wait() until bedwarsStore.queueType ~= "bedwars_test"
+		if isObject("PlayerInviteOptionsButton") then 
+			shared.VoidwareStore.PartyMembers = shared.VoidwareStore.PartyMembers or {}
+			repeat task.wait()
+			for i,v in pairs(bedwars.ClientStoreHandler:getState().Party.members) do 
+				local plr = playersService:FindFirstChild(v.name)
+				if plr and not table.find(shared.VoidwareStore.PartyMembers, plr) and partymoduletoggled then 
+					InfoNotification("PartyInvite", plr.DisplayName.." has joined the party!", 5)
+				end
+				if plr and table.find(shared.VoidwareStore.PartyMembers, plr) == nil then
+					table.insert(shared.VoidwareStore.PartyMembers, plr)
+				end
+			end
+			until not vapeInjected
+		end
+	end)
