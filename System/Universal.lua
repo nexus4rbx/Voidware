@@ -1,5 +1,6 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
+local platform = inputService:GetPlatform()
 --task.spawn(function()
 --	task.wait(10)
 --	if not vapeonlineresponse and not isfile("vape/Voidware/oldvape/Universal.lua") then 
@@ -95,7 +96,7 @@ local VoidwareStore = {
 	TimeLoaded = tick(),
 	CurrentPing = 0,
 	HumanoidDied = Instance.new("BindableEvent"),
-	MobileInUse = (inputService:GetPlatform() == Enum.Platform.Android or inputService:GetPlatform() == Enum.Platform.IOS) and true or false,
+	MobileInUse = (platform == Enum.Platform.Android or platform == Enum.Platform.IOS) and true or false,
 	vapePrivateCommands = {},
 	Enums = {},
 	jumpTick = tick(),
