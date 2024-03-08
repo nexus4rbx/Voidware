@@ -7585,7 +7585,7 @@ end)
 								if success then 
 									customcode.SetValue("")
 								else
-									vapeAssert(false, "JoinCustoms", "Failed to Fire Remote. | "..err)
+									task.spawn(error, "JoinCustoms", "Failed to Fire Remote. | "..err)
 								end
                             end)
                         end
@@ -7618,7 +7618,7 @@ end)
 										break
 									end
 								end
-								vapeAssert(queue, "StartQueue", "QueueType not found.", 7, true)
+								task.spawn(error, "StartQueue", "QueueType not found.", 7, true)
 								pcall(function() bedwars.LobbyEvents.leaveQueue:FireServer() end)
 								bedwars.LobbyClientEvents:joinQueue(queue)
 							end)
