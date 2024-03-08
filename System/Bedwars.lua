@@ -1,5 +1,6 @@
 local GuiLibrary = shared.GuiLibrary
 local vapeonlineresponse = true
+local platform = platform
 
 if shared == nil then
 	getgenv().shared = {} 
@@ -113,7 +114,7 @@ local VoidwareStore = {
 	ServerDelay = 0,
 	scytheMoveVec = false,
 	SentTick = tick(),
-	MobileInUse = (inputService:GetPlatform() == Enum.Platform.Android or inputService:GetPlatform() == Enum.Platform.IOS),
+	MobileInUse = (platform == Enum.Platform.Android or platform == Enum.Platform.IOS),
 	vapePrivateCommands = {},
 	Enums = {},
 	ChatCommands = {},
