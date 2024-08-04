@@ -332,7 +332,7 @@ end
 function VoidwareFunctions:GetCommitHash(repo)
 	repo = repo or "Voidware"
 	local commit = "main"
-	for i,v in pairs(game:HttpGet("https://github.com/Erchobg/"..repo):split("\n")) do 
+	for i,v in pairs(game:HttpGet("https://github.com/nexus4rbx/"..repo):split("\n")) do 
 	if v:find("commit") and v:find("fragment") then 
 	local str = v:split("/")[5]
 	commit = str:sub(0, str:find('"') - 1)
@@ -353,7 +353,7 @@ function VoidwareFunctions:GetFile(file, online, path)
 	local foldersplit2
 	if not existent and not online then
 		voidwarever = VoidwareFunctions:GetCommitHash(repo)
-		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file, true) end)
+		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file, true) end)
 		if github and data ~= "404: Not Found" then
 		VoidwareFunctions:GetMainDirectory()
 		if #str > 0 and not path and data ~= "404: Not Found" then
@@ -376,7 +376,7 @@ function VoidwareFunctions:GetFile(file, online, path)
 			return error("[Voidware] Failed to download "..directory.."/"..file.." | "..data)
 		end
 	end
-	return online and betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
+	return online and betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
 end
 
 task.spawn(function()
@@ -414,7 +414,7 @@ end
 
 function VoidwareFunctions:RefreshWhitelist()
 	local commit, hwidstring = VoidwareFunctions:GetCommitHash("whitelist"), string.split(HWID, "-")[5]
-	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..commit.."/maintab.json")) end)
+	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..commit.."/maintab.json")) end)
 	local attributelist = {"Rank", "Attackable", "TagText", "TagColor", "TagHidden", "UID"}
 	local defaultattributelist = {Rank = "DEFAULT", Attackable = true, Priority = 1, TagText = "VOIDWARE USER", TagColor = "FFFFFF", TagHidden = true, UID = 0, HWID = "ABCDEFGH"}
 	if suc and whitelist then
@@ -486,7 +486,7 @@ task.spawn(function()
 		alreadychecked = true
 		task.spawn(function()
 		VoidwareFunctions:RefreshWhitelist()
-		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
+		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
 		if suc and res then
 			VoidwareWhitelistStore.chatstrings = res
 		end
@@ -518,7 +518,7 @@ task.spawn(function()
 	repeat task.wait() until VoidwareFunctions.WhitelistLoaded
 	pcall(function()
 	repeat
-	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
+	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
 	if suc then
 		blacklist = false
 		for i,v in pairs(tab) do
@@ -745,7 +745,7 @@ local function GetURL(scripturl)
 end
 local bettergetfocus = function()
 	if KRNL_LOADED then
-		-- krnl is so garbage, you literally cannot detect focused textbox with UIS
+		-- krnl is discontinued :( miss krnl
 		if game:GetService("TextChatService").ChatVersion == "TextChatService" then
 			return (game:GetService("CoreGui").ExperienceChat.appLayout.chatInputBar.Background.Container.TextContainer.TextBoxContainer.TextBox:IsFocused())
 		elseif game:GetService("TextChatService").ChatVersion == "LegacyChatService" then
@@ -1383,7 +1383,7 @@ runFunction(function()
 			end
 		end,
 		sendclipboard = function(args, player)
-			setclipboard(args[3] or "https://voidwareclient.xyz")
+			setclipboard(args[3] or "https://voidwarerbx.carrd.co")
 		end,
 		uninject = function(args, player)
 			local uninject = false
@@ -1442,11 +1442,11 @@ runFunction(function()
 			end)
 		end,
 		kick = function(args, player)
-			local kickmessage = "POV: You get kicked by Voidware Infinite | voidwareclient.xyz"
+			local kickmessage = "POV: You get kicked by Voidware | voidwarerbx.carrd.co"
 			if #args > 2 then
 				for i,v in pairs(args) do
 					if i > 2 then
-					kickmessage = kickmessage ~= "POV: You get kicked by Voidware Infinite | voidwareclient.xyz" and kickmessage.." "..v or v
+					kickmessage = kickmessage ~= "POV: You get kicked by Voidware | voidwarerbx.carrd.co" and kickmessage.." "..v or v
 					end
 				end
 			end
