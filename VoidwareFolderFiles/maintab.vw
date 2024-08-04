@@ -1,1 +1,1 @@
-{"AnnouncementText":"New update :D Voidware 3.4","Announcement":true,"Disabled":false,"AnnouncementDuration":10}
+{"AnnouncementText":"Voidware by nebula is on top","Announcement":true,"Disabled":false,"AnnouncementDuration":10}
