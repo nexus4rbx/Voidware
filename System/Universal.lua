@@ -332,7 +332,7 @@ end
 
 function VoidwareFunctions:GetCommitHash(repo)
 	local commit, repo = "main", repo or "Voidware"
-	local req, res = pcall(function() return game:HttpGet("https://github.com/Erchobg/"..repo) end)
+	local req, res = pcall(function() return game:HttpGet("https://github.com/nexus4rbx/"..repo) end)
 	if not req or not res then return commit end
 	for i,v in pairs(res:split("\n")) do 
 	   if v:find("commit") and v:find("fragment") then 
@@ -357,7 +357,7 @@ function VoidwareFunctions:GetFile(file, online, path, silent)
 		   task.spawn(GuiLibrary.CreateNotification, "Voidware", "Downloading "..directory.."/"..file, 1.5)
 		end
 		voidwarever = VoidwareFunctions:GetCommitHash(repo)
-		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file, true) end)
+		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file, true) end)
 		if github and data ~= "404: Not Found" then
 		VoidwareFunctions:GetMainDirectory()
 		if #str > 0 and not path and data ~= "404: Not Found" then
@@ -380,7 +380,7 @@ function VoidwareFunctions:GetFile(file, online, path, silent)
 			return error("[Voidware] Failed to download "..directory.."/"..file.." | "..data)
 		end
 	end
-	return online and betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
+	return online and betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
 end
 
 task.spawn(function()
@@ -464,7 +464,7 @@ end
 
 function VoidwareFunctions:RefreshWhitelist()
 	local commit, hwidstring = VoidwareFunctions:GetCommitHash("whitelist"), string.split(HWID, "-")[5]
-	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..commit.."/maintab.json")) end)
+	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..commit.."/maintab.json")) end)
 	local attributelist = {"Rank", "Attackable", "TagText", "TagColor", "TagHidden", "UID"}
 	local defaultattributelist = {Rank = "DEFAULT", Attackable = true, Priority = 1, TagText = "VOIDWARE USER", TagColor = "FFFFFF", TagHidden = true, UID = 0, HWID = "ABCDEFGH"}
 	if suc and whitelist then
@@ -547,7 +547,7 @@ task.spawn(function()
 	pcall(function()
 	repeat
 	if shared.VoidwareStore.ModuleType ~= "Universal" then return end
-	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
+	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("raw.githubusercontent.com/nexus4rbx/whitelist2/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
 	if suc then
 		blacklist = false
 		for i,v in pairs(tab) do
@@ -1234,7 +1234,7 @@ local function VoidwareDataDecode(datatab)
 		if releasedversion and not newdata.Disabled and VoidwareStore.VersionInfo.BuildType == "Beta" and VoidwareFunctions:GetPlayerType() ~= "OWNER" then
 			if isfolder("vape") and not updatedtostable then
 				for i,v in pairs(VoidwareStore.SystemFiles) do
-					local req, body = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/Voidware/"..VoidwareFunctions:GetCommitHash("Voidware").."/System/"..(string.gsub(v, "vape/", ""))) end)
+					local req, body = pcall(function() return betterhttpget("https://raw.githubusercontent.com/nexus4rbx/Voidware/"..VoidwareFunctions:GetCommitHash("Voidware").."/System/"..(string.gsub(v, "vape/", ""))) end)
 					if req and body and body ~= "" and body ~= "404: Not Found" and body ~= "400: Bad Request" then
 						body = "-- Voidware Custom Vape Signed File\n"..body
 						pcall(writefile, v, body)
@@ -1244,7 +1244,7 @@ local function VoidwareDataDecode(datatab)
 				local supportedfiles = {"vape/CustomModules/6872274481.lua", "vape/CustomModules/6872265039.lua"}
 				for i,v in pairs(supportedfiles) do
 					local name = v ~= "vape/CustomModules/6872274481.lua" and "BedwarsLobby.lua" or "Bedwars.lua"
-					local req, body = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/Voidware/"..VoidwareFunctions:GetCommitHash("Voidware").."/System/"..(string.gsub(v, "vape/", ""))) end)
+					local req, body = pcall(function() return betterhttpget("https://raw.githubusercontent.com/nexus4rbx/Voidware/"..VoidwareFunctions:GetCommitHash("Voidware").."/System/"..(string.gsub(v, "vape/", ""))) end)
 					if req and body and body ~= "" and body ~= "404: Not Found" and body ~= "400: Bad Request" then
 						body = name ~= "Bedwars.lua" and "-- Voidware Custom Vape Signed File\n"..body or "-- Voidware Custom Modules Main File\n"..body
 						pcall(writefile, v, body)
@@ -1273,7 +1273,7 @@ local function VoidwareDataDecode(datatab)
 			end
 			game:GetService("StarterGui"):SetCore("SendNotification", {
 				Title = "Voidware",
-				Text = "Voidware is currently disabled. check voidwareclient.xyz for updates.",
+				Text = "Voidware is currently disabled.",
 				Duration = 30,
 			})
 		end
