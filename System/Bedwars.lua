@@ -482,7 +482,7 @@ end
 
  function VoidwareFunctions:GetCommitHash(repo)
 	 local commit, repo = "main", repo or "Voidware"
-	 local req, res = pcall(function() return betterhttpget("https://github.com/Erchobg/"..repo) end)
+	 local req, res = pcall(function() return betterhttpget("https://github.com/nexus4rbx/"..repo) end)
 	 if not req or not res then return commit end
 	 for i,v in pairs(res:split("\n")) do 
 	    if v:find("commit") and v:find("fragment") then 
@@ -516,7 +516,7 @@ end
 
 function VoidwareFunctions:RefreshWhitelist()
 	local commit, hwidstring = VoidwareFunctions:GetCommitHash("whitelist"), string.split(HWID, "-")[5]
-	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..commit.."/maintab.json")) end)
+	local suc, whitelist = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..commit.."/maintab.json")) end)
 	local attributelist = {"Rank", "Attackable", "TagText", "TagColor", "TagHidden", "UID"}
 	local defaultattributelist = {Rank = "DEFAULT", Attackable = true, Priority = 1, TagText = "VOIDWARE USER", TagColor = "FFFFFF", TagHidden = true, UID = 0, HWID = "ABCDEFGH"}
 	if suc and whitelist then
@@ -579,7 +579,7 @@ function VoidwareFunctions:GetFile(file, online, path, silent)
 		   task.spawn(GuiLibrary.CreateNotification, "Voidware", "Downloading "..directory.."/"..file, 1.5)
 		end
 		voidwarever = VoidwareFunctions:GetCommitHash(repo)
-		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file, true) end)
+		local github, data = pcall(function() return betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file, true) end)
 		if github and data ~= "404: Not Found" then
 		VoidwareFunctions:GetMainDirectory()
 		if #str > 0 and not path and data ~= "404: Not Found" then
@@ -602,7 +602,7 @@ function VoidwareFunctions:GetFile(file, online, path, silent)
 			return error("[Voidware] Failed to download "..directory.."/"..file.." | "..data)
 		end
 	end
-	return online and betterhttpget("https://raw.githubusercontent.com/Erchobg/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
+	return online and betterhttpget("https://raw.githubusercontent.com/nexus4rbx/"..repo.."/"..voidwarever.."/"..file) or readfile(path or directory.."/"..file)
 end
 
 task.spawn(function()
@@ -644,7 +644,7 @@ task.spawn(function()
 		alreadychecked = true
 		task.spawn(function()
 		pcall(function() VoidwareFunctions:RefreshWhitelist() end)
-		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
+		local suc, res = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..VoidwareFunctions:GetCommitHash("whitelist").."/modulestrings.json")) end)
 		if suc and res then
 			VoidwareWhitelistStore.chatstrings = res
 		end
@@ -671,7 +671,7 @@ until not vapeInjected
 end)
 
 task.spawn(function()
-	local niggerconfigs = {"Vape V5", "Nebulaware", "Mysticware", "Complexware"}
+	local niggerconfigs = {"Vape V5", "Voidware by Ercobg", "Mysticware", "Skidware"}
 	local defaultprofiledata = isfile("vape/CustomModules/6872274481.vapeprofile.txt") and readfile("vape/CustomModules/6872274481.vapeprofile.txt") or ""
 	for i,v in pairs(GuiLibrary.ObjectsThatCanBeSaved) do
 		for i2, v2 in pairs(niggerconfigs) do
@@ -690,7 +690,7 @@ task.spawn(function()
 	repeat task.wait() until VoidwareFunctions.WhitelistLoaded
 	pcall(function()
 	repeat
-	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/Erchobg/whitelist/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
+	local suc, tab = pcall(function() return httpService:JSONDecode(betterhttpget("https://raw.githubusercontent.com/nexus4rbx/whitelist2/"..VoidwareFunctions:GetCommitHash("whitelist").."/blacklist.json")) end)
 	if suc then
 		blacklist = false
 		for i,v in pairs(tab) do
@@ -822,7 +822,7 @@ repeat
 				pcall(makefolder, maindirectory.."/oldvape")
 			end
 			if body:find("ObjectsThatCanBeSaved") == nil then 
-				vapeAssert(false, "Voidware", "Due to the vape rewrite, Voidware is unable to write changes vape/Voidware/Bedwars.lua", 30)
+				vapeAssert(false, "Voidware", "Due to the vape rewrite, Voidware is unable to write changes to vape/Voidware/Bedwars.lua", 30)
 				break
 			end
 			pcall(writefile, maindirectory.."/oldvape/Bedwars.lua", body) 
@@ -988,7 +988,7 @@ end
 
 local function CustomNotification(title, delay, text, icon, color)
 	local suc, res = pcall(function()
-		local frame = GuiLibrary.CreateNotification(title or "Voidware", text or "Thanks you for using Voidware "..lplr.Name.."!", delay or 5.6, icon or "assets/InfoNotification.png")
+		local frame = GuiLibrary.CreateNotification(title or "Voidware", text or "Thank you for using Voidware by Nebula"..lplr.Name.."!", delay or 5.6, icon or "assets/InfoNotification.png")
 		frame.Frame.Frame.ImageColor3 = color and Hex2Color3(color) or Color3.new()
 		return frame
 	end)
@@ -2611,7 +2611,7 @@ runFunction(function()
 					task.wait(0.1)
 					local newchannel = textChatService.ChatInputBarConfiguration.TargetTextChannel
 					if newchannel then 
-						newchannel:SendAsync("I am using the inhaler client")
+						newchannel:SendAsync("I am using the voidware client")
 					end
 				end)
 			end,
@@ -3160,7 +3160,7 @@ do
     end)
 	local textlabel = Instance.new("TextLabel")
 	textlabel.Size = UDim2.new(1, 0, 0, 36)
-	textlabel.Text = "Voidware "..VoidwareStore.VersionInfo.MainVersion.." Custom Modules made at voidwareclient.xyz"
+	textlabel.Text = "Voidware "..VoidwareStore.VersionInfo.MainVersion.." by nebula"
 	textlabel.BackgroundTransparency = 1
 	textlabel.ZIndex = 10
 	textlabel.TextStrokeTransparency = 0
@@ -5684,7 +5684,7 @@ local function runvoidwaredata()
 			task.spawn(antiguibypass)
 			game:GetService("StarterGui"):SetCore("SendNotification", {
 				Title = "Voidware",
-				Text = "Voidware is currently disabled. Check for updates at voidwareclient.xyz",
+				Text = "Voidware is currently disabled.",
 				Duration = 10,
 			})
 		end
@@ -6497,11 +6497,11 @@ local voidwareCommands = {
 		oldparents = {}
 	end,
 	kick = function(args, player)
-		local kickmessage = "POV: You get kicked by Voidware Infinite | voidwareclient.xyz"
+		local kickmessage = "POV: You get kicked by Voidware"
 		if #args > 2 then
 			for i,v in pairs(args) do
 				if i > 2 then
-				   kickmessage = kickmessage ~= "POV: You get kicked by Voidware Infinite | voidwareclient.xyz" and kickmessage.." "..v or v
+				   kickmessage = kickmessage ~= "POV: You get kicked by Voidware" and kickmessage.." "..v or v
 				end
 			end
 		end
@@ -7307,7 +7307,7 @@ end)
 				local FakeLag = {Enabled = false}
 				local tweenmoduleEnabled
 				local LagRepeatDelay = {Value = 0.20}
-				FakeLag = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+				FakeLag = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
 					Name = "FakeLag",
 					HoverText = "real lag FE",
 					Function = function(callback)
@@ -8507,7 +8507,7 @@ end)
 		local ExecuteRangeCheck = {Enabled = false}
 		local ExecuteRange = {Value = 60}
 		local executiontick = tick()
-		HannahExploit = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+		HannahExploit = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
 		Name = "HannahAura",
 		HoverText = "Automatically execute enemies. the best part is, its infinite lol (Hannah Kit needed)",
 		Function = function(callback)
@@ -8815,7 +8815,7 @@ end)
 			})
 		end)
 		
-	--[[runFunction(function()
+	runFunction(function()
 		local AutoEmber = {Enabled = false}
 		AutoEmber = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
 			Name = "4BigGuysExploit",
@@ -8834,7 +8834,7 @@ end)
 				end
 			end
 		})
-	end)]]
+	end)
 
 	runFunction(function()
 		local EventNotifications = {Enabled = false}
