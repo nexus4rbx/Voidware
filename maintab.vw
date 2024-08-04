@@ -1,1 +1,1 @@
-{"AnnouncementText":"Voidware is better then render! Switch now at https://discord.gg/jWNnRydt","Announcement":false,"Disabled":false,"AnnouncementDuration":10}
+{"AnnouncementText":"Voidware by nebula is better than ercos version! Switch now today!","Announcement":false,"Disabled":false,"AnnouncementDuration":10}
